@@ -29,7 +29,39 @@
                         <td>{{ item.origin_price }}</td>
                         <td>{{ item.price }}</td>
                         <td>{{ item.is_enabled }}</td>
-                        <td><button type="button" class="btn btn-primary">查看細節</button></td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productDetail">
+                                查看細節
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="productDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">{{ item.title }}</h5>
+                                            <span class="bg-primary text-white rounded-2 p-1 ms-2">{{ item.category }}</span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul class="list-unstyled">
+                                                <li class="py-1">
+                                                    <img class="w-100" :src="item.imagesUrl" :alt="item.title">
+                                                </li>
+                                                <li class="py-1">
+                                                    商品描述：{{ item.description }}
+                                                </li>
+                                                <li class="py-1">
+                                                    商品內容：{{ item.content }}
+                                                </li>
+                                                <li class="py-1">
+                                                    {{ item.price }} <del>{{ item.origin_price }}</del> / 元
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
