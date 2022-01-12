@@ -4,6 +4,14 @@ const app = {
     data() {
         return {
             products,
+            temp: {
+
+            },
+        }
+    },
+    methods: {
+        showDetail(item) {
+            this.temp = item;
         }
     }
 }
