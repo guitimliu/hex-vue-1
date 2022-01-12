@@ -28,7 +28,10 @@
                         <td>{{ item.title }}</td>
                         <td>{{ item.origin_price }}</td>
                         <td>{{ item.price }}</td>
-                        <td>{{ item.is_enabled }}</td>
+                        <td>
+                            <span class="text-success" v-if="item.is_enabled">啟用</span>
+                            <span class="text-danger" v-else>未啟用</span>
+                        </td>
                         <td>
                             <button type="button" v-on:click="showDetail(item)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productDetail">
                                 查看細節
@@ -63,6 +66,17 @@
                                 {{ temp.price }} <del>{{ temp.origin_price }}</del> / 元
                             </li>
                         </ul>
+                        <hr>
+                        <h2 class="h5">Other Images</h2>
+                        <div class="container p-0">
+                            <!-- 先判斷有該陣列，再判斷其陣列長度 https://blog.csdn.net/qq_40128591/article/details/113680238 -->
+                            <ul v-if="temp.imagesUrl && temp.imagesUrl.length > 0" class="row list-unstyled py-2">
+                                <li class="col-md-4 py-2" v-for="(url,num) in temp.imagesUrl">
+                                    <img class="img-fluid" :src="url" :alt=`圖片${num+1}`>
+                                </li>
+                            </ul>
+                            <p class="py-2" v-else>沒有其它照片</p>
+                        </div>
                     </div>
                 </div>
             </div>

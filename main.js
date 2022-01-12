@@ -4,9 +4,7 @@ const app = {
     data() {
         return {
             products,
-            temp: {
-
-            },
+            temp: {},
         }
     },
     methods: {
