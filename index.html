@@ -9,11 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-secondary text-white">
     <div id="app">
         <div class="container my-3">
             <p data-aos="fade-right">共有 {{ products.length }} 項商品</p>
-            <table data-aos="zoom-in" class="table">
+            <table class="table table-hover table-striped table-borderless shadow table-dark" data-aos="zoom-in" class="table">
                 <thead>
                     <tr>
                         <th>產品名稱</th>
@@ -27,14 +27,14 @@
                     <!-- 商品清單 -->
                     <tr v-for="item in products">
                         <td>{{ item.title }}</td>
-                        <td>{{ item.origin_price }}</td>
+                        <td><del>{{ item.origin_price }}</del></td>
                         <td>{{ item.price }}</td>
                         <td>
-                            <span class="text-success" v-if="item.is_enabled">啟用</span>
-                            <span class="text-danger" v-else>未啟用</span>
+                            <span class="rounded-2 bg-success p-1" v-if="item.is_enabled">啟用</span>
+                            <span class="rounded-2 bg-danger p-1" v-else>未啟用</span>
                         </td>
                         <td>
-                            <button type="button" v-on:click="showDetail(item)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productDetail">
+                            <button type="button" v-on:click="showDetail(item)" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#productDetail">
                                 查看細節
                             </button>
                         </td>
@@ -46,16 +46,42 @@
         <!-- 商品細項 Modal -->
         <div class="modal fade" id="productDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content bg-dark">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">{{ temp.title }}</h5>
-                        <span class="bg-primary text-white rounded-2 p-1 ms-2">{{ temp.category }}</span>
+                        <span class="bg-secondary text-white rounded-2 p-1 ms-2">{{ temp.category }}</span>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <ul class="list-unstyled">
                             <li class="py-1">
-                                <img class="w-100" :src="temp.imagesUrl" :alt="temp.title">
+                                <!-- 商品照片輪播 -->
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-indicators">
+                                        <template v-for="(url,num) in temp.imagesUrl">
+                                            <button v-if="num == 0" type="button" data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="num" class="active" aria-current="true" :aria-label=`Slide${num+1}`></button>
+                                            <button v-else type="button" data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="num" :aria-label=`Slide${num+1}`></button>
+                                        </template>
+                                    </div>
+                                    <div class="carousel-inner">
+                                        <template v-for="(url,num) in temp.imagesUrl">
+                                            <div v-if="num == 0" class="carousel-item active">
+                                                <img class="w-100" :src="url" :alt=`照片${num+1}`>
+                                            </div>
+                                            <div v-else class="carousel-item">
+                                                <img class="w-100" :src="url" :alt=`照片${num+1}`>
+                                            </div>
+                                        </template>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </li>
                             <li class="py-1">
                                 商品描述：{{ temp.description }}
@@ -64,20 +90,21 @@
                                 商品內容：{{ temp.content }}
                             </li>
                             <li class="py-1">
-                                {{ temp.price }} <del>{{ temp.origin_price }}</del> / 元
+                                <span class="h2 text-danger">{{ temp.price }}</span> <del>{{ temp.origin_price }}</del> / 元
                             </li>
                         </ul>
-                        <hr>
+                        <!-- 因為有輪播所以 Other Images 就非必要 -->
+                        <!-- <hr>
                         <h2 class="h5">Other Images</h2>
-                        <div class="container p-0">
+                        <div class="container p-0"> -->
                             <!-- 先判斷有該陣列，再判斷其陣列長度 https://blog.csdn.net/qq_40128591/article/details/113680238 -->
-                            <ul v-if="temp.imagesUrl && temp.imagesUrl.length > 0" class="row list-unstyled py-2">
+                            <!-- <ul v-if="temp.imagesUrl && temp.imagesUrl.length > 0" class="row list-unstyled py-2">
                                 <li class="col-md-4 py-2" v-for="(url,num) in temp.imagesUrl">
                                     <img class="img-fluid" :src="url" :alt=`照片${num+1}`>
                                 </li>
                             </ul>
                             <p class="py-2" v-else>沒有其它照片</p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
