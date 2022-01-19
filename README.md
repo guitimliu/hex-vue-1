@@ -11,7 +11,7 @@
 
 ## 學習到的東西
 
-### Bootstrap Carousel 元件 與 <template> 渲染不額外產生標籤
+### Bootstrap Carousel 元件 與 `<template>` 渲染不額外產生標籤
 
 * 使用 Bootstrap Carousel 元件搭配顯示商品照片；並實作了解其架構。
 * 希望渲染過程不額外新增標籤（Ex. v-for），而破壞 Carousel 元件架構而造成無法運作；可使用 `<template>` 標籤。
